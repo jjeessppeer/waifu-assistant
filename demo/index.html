@@ -8,14 +8,17 @@
   <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
   
   <script type="module" src="../waifu-assistant.js"></script>
-  <link rel="stylesheet" href="../src/WaifuAssistant.css">
+  <!-- <link rel="stylesheet" href="../src/WaifuAssistant.css"> -->
 </head>
 <body>
   <div id="demo">demo</div>
   <waifu-assistant 
     id="waifu-assistant" 
-    dialogue-src="./dialogue_example.json" 
-    model-src="https://cdn.jsdelivr.net/npm/katze-live2d_api@1.0.0/model/Potion-Maker/Tia/index.json">
+    dialogue-src="./dialogue.json"
+    triggers-src="./triggers.json"
+    model-src="https://cdn.jsdelivr.net/npm/katze-live2d_api@1.0.0/model/Potion-Maker/Tia/index.json"
+    height="300"
+    width="300">
   </waifu-assistant>
 </body>
 </html>

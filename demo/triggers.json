@@ -1,0 +1,33 @@
+{
+    "event_triggers": [
+        {
+            "event": "mouseover",
+            "selector": "div",
+            "dialogueId": "div examined"
+        },
+        {
+            "event": "keydown",
+            "selector": ".searchbar",
+            "dialogueId": "searching for something"
+        }
+    ],
+    "NOT_IMPLEMENTED_time_triggers": [
+        {
+            "type": "TIME_BETWEEN",
+            "start": "20:00",
+            "end": "21:00",
+            "dialogueId": "getting late"
+        },
+        {
+            "type": "DATE",
+            "month": "12",
+            "day": "24",
+            "dialogyeId": "merry christmas"
+        },
+        {
+            "type": "TIME_SPENT",
+            "seconds": "600",
+            "dialogueId": "time to leave"
+        }
+    ]
+}

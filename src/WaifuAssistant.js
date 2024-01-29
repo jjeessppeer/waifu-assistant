@@ -1,5 +1,5 @@
 export class WaifuAssistant extends HTMLElement {
-  static observedAttributes = ["dialogue-src", "model-src"];
+  static observedAttributes = ["dialogue-src", "triggers-src", "model-src", "width", "height"];
 
   constructor() {
     super();
@@ -54,12 +54,25 @@ export class WaifuAssistant extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === "dialogue-src") {
-      // TODO: clear old dialogue?
-      this.loadDialogue(newValue);
-    }
-    if (name === "model-src") {
-      this.loadLive2dModel(newValue);
+    switch (name) {
+      case "dialogue-src":
+        // TODO: clear old dialogue?
+        this.loadDialogue(newValue);
+        break;
+      case "triggers-src":
+        this.loadTriggers(newValue);
+        break;
+      case "model-src":
+        this.loadLive2dModel(newValue);
+        break;
+      case "width":
+        this.style.width = `${newValue}px`;
+        this.pixiApp.resize();
+        break;
+      case "height":
+        this.style.height = `${newValue}px`;
+        this.pixiApp.resize();
+        break;
     }
   }
 
@@ -80,15 +93,24 @@ export class WaifuAssistant extends HTMLElement {
   async loadDialogue(dialogueSrc) {
     const response = await fetch(dialogueSrc);
     const dialogueData = await response.json();
-    for (const trigger of dialogueData['auto_triggers']) {
-      this.addDialogueTrigger(trigger.event, trigger.selector, trigger.dialogueId);
-    }
+    // for (const trigger of dialogueData['auto_triggers']) {
+    //   this.addDialogueTrigger(trigger.event, trigger.selector, trigger.dialogueId);
+    // }
+    console.log(dialogueData)
 
     for (const message of dialogueData['dialogue']) {
       this.dialogueEntries[message.id] = message;
     }
 
     this.triggerDialogueById('welcome');
+  }
+
+  async loadTriggers(triggersSrc) {
+    const response = await fetch(triggersSrc);
+    const triggersData = await response.json();
+    for (const trigger of triggersData['event_triggers']) {
+      this.addDialogueTrigger(trigger.event, trigger.selector, trigger.dialogueId);
+    }
   }
 
   addDialogueTrigger(eventType, selector, dialogueId) {
@@ -253,7 +275,7 @@ export class WaifuAssistant extends HTMLElement {
       width: 300px;
       bottom: 0;
       transition: bottom 0.9s ease-in-out;
-      pointer-events: none;
+      /* pointer-events: none; */
       visibility: visible;
     }
     
@@ -269,7 +291,7 @@ export class WaifuAssistant extends HTMLElement {
       line-height: 24px;
       text-overflow: ellipsis;
     
-      width: 250px;
+      width: 85%;
       min-height: 70px;
       margin: -30px 20px;
       padding: 5px 10px;
