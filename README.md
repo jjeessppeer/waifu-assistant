@@ -1,59 +1,42 @@
 # \<waifu-assistant>
 ## Usage
-Load required js.
+Load required the js. The script regiesters a new web component `waifu-assistant`. This can now be used in html or from js.
 ```
-<head>
-    <!-- Required for live2d rendering -->
-    <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
+<!-- Dependencies -->
+<script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
 
-    <!-- The assistant -->
-    <script src="waifu-assistant.js" defer></script>
-</head>
-```
-The script regiesters a new custom element `waifu-assistant`. This can now be used in html or from js.
-
-**Initialize from html**
-```
-<body>
-    <waifu-assistant
-        dialogue-src="./dialogue_example.json" 
-        model-src="https://cdn.jsdelivr.net/npm/katze-live2d_api@1.0.0/model/Potion-Maker/Tia/index.json">
-    </waifu-assistant>
-</body>
+<!-- The web component -->
+<script type="module" src="https://cdn.jsdelivr.net/npm/waifu-assistant@1/waifu-assistant.js"></script>
 ```
 
-**Initialize from js**
+**Initialize in html body**
+```
+<waifu-assistant 
+  id="waifu-assistant" height="300" width="300"
+  dialogue-src="./dialogue.json"
+  triggers-src="./triggers.json"
+  model-src="https://cdn.jsdelivr.net/npm/katze-live2d_api@1.0.0/model/Potion-Maker/Tia/index.json">
+</waifu-assistant>
+```
+
+**Initialize in js**
 
 You can also initialize the element from js, like any custom element.
 ```
 const waifu = document.createElement("div", {is: "waifu-assistant"});
-waifu.setAttribute("dialogue-src", "/js/dialogue.json");
+waifu.setAttribute("dialogue-src", "/dialogue.json");
 waifu.setAttribute("model-src", "https://cdn.jsdelivr.net/npm/katze-live2d_api@1.0.0/model/Potion-Maker/Tia/index.json");
-document.getElementById("some-parent-element").appendChild(element);
+document.querySelector("body").appendChild(element);
 ```
 
-# Defining dialogue JSON
-Json file loaded by setting the `dialogue-src` attribute. See `demo/dialogue_example.json` for example.
+## Model
+Specify the url to the model JSON in the `model-src` attribute. Supports Cubism 2.1 and Cubism 4 Live2D models. See [pixi-live2d-display](https://github.com/guansss/pixi-live2d-display) for more details.
 
-**Event triggers**
-
-Specify html events to trigger dialogue on. For example:
-```
-{
-    "event": "mouseover",
-    "selector": ".someclass",
-    "dialogueId": "sample message"
-}
-```
-This will trigger the dialogue `sample message` when the mouseover event is triggered on an element matching the css selector `.someclass`. 
-Note that this will only work on events that bubble up to the document level. If events are captured earlier they will not be detected.
-
-**Dialogue**
-
-Contains the predefined messages. The messages can be triggered by the auto triggers specified in the json or by calling `WaifuAssistant.triggerDialogue(dialogueId)`. Example: 
+## Dialogue JSON
+See `demo/dialogue.json`. Contains the predefined messages. The messages can be triggered by the auto triggers specified in the json or manually by calling `WaifuAssistant.triggerDialogueById(dialogueId)`. The json consists of a list of dialogue objects. Json file loaded by setting the `dialogue-src` attribute. Example object: 
 ```
 {
   "id": "sample message",
@@ -62,6 +45,7 @@ Contains the predefined messages. The messages can be triggered by the auto trig
 ```
 
 Each dialogue object can contain the following fields.
+* `id`: String. Identifier used for triggering this dialogue.
 * `text`: Array of strings. Contains the sequence of messages to be displayed.
 * `duration` (optional): Array of numbers. Specifies time spent on each message in seconds. Use element null for automatic timing.
 * `motion` (optional): Array of keys to model motion to be taken during message.
@@ -87,5 +71,18 @@ waify.triggerDialogue({
     text: ["hello", "there"]
 }); // Triggers the specified dialogue object. Same object specification as detailed in #Dialogue.
 ```
+## Trigger JSON
+ See `demo/triggers.json`.
 
+**Browser event triggers**
 
+Objects under `event_triggers` specify events to trigger dialogue on. Example:
+```
+{
+  "event": "mouseover",
+  "selector": "div",
+  "dialogueId": "div examined"
+}
+```
+This will trigger the dialogue `div examined` when the `mouseover` event is triggered on an element matching the css selector `div`. 
+Note that this will only work on events that bubble up to the document level. If events are captured earlier they will not be detected.
