@@ -1,0 +1,36 @@
+{
+  "auto_triggers": [
+    {
+      "event": "mouseover",
+      "selector": "div",
+      "dialogueId": "div examined"
+    }
+  ],
+  "dialogue": [
+    {
+      "id": "div examined",
+      "text": ["Hello!"]
+    },
+    {
+      "id": "custom timing",
+      "text": ["A default hello", "and a long goodbye."],
+      "duration": [null, 10]
+    },
+    {
+      "id": "custom priority",
+      "text": ["I was not saying anything previously."],
+      "priority": "IS_SILENT"
+    },
+    {
+      "id": "with everything",
+      "text": ["Hello!", "there", "Goodbye!"],
+      "duration": [3, 5, 8],
+      "motion": ["motion_1", "motion_2"],
+      "expression": ["expression_1"],
+      "behavior": "RANDOM",
+      "priority": "IMMEDIATE",
+      "cooldown": -1,
+      "chance": 0.5
+    }
+  ]
+}

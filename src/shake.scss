@@ -1,0 +1,7 @@
+@keyframes shake {
+    @for $i from 0 through 10 {
+        #{($i * 10%)} {
+            transform: translate(random(6px) - 3.5px, random(6px) - 3.5px) rotate(random(4deg) - 2.5deg);
+        }
+    }
+}
