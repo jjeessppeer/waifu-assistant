@@ -33,7 +33,7 @@ document.querySelector("body").appendChild(element);
 ```
 
 ## Model
-Specify the url to the model JSON in the `model-src` attribute. Supports Cubism 2.1, Cubism 3 and Cubism 4 Live2D models. If you can't see the model despite it loading mess with the `offset-y` and `scale` attributes. The model is likely out of frame. See [pixi-live2d-display](https://github.com/guansss/pixi-live2d-display) for more details.
+Specify the url to the model JSON in the `model-src` attribute. Supports Cubism 2.1, Cubism 3 and Cubism 4 Live2D models. Model can be accessed with the `WaifuAssistant.model` field once loaded. See [pixi-live2d-display](https://github.com/guansss/pixi-live2d-display) for more details on how to manipulate the model.
 
 ## Dialogue JSON
 See `demo/dialogue.json`. Contains the predefined messages. The messages can be triggered by the auto triggers specified in the json or manually by calling `WaifuAssistant.triggerDialogueById(dialogueId)`. The json consists of a list of dialogue objects. Json file loaded by setting the `dialogue-src` attribute. Example object: 
